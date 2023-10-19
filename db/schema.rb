@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_17_045945) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_19_165435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "postulations", force: :cascade do |t|
+    t.string "content"
+    t.bigint "publication_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publication_id"], name: "index_postulations_on_publication_id"
+    t.index ["user_id"], name: "index_postulations_on_user_id"
+  end
 
   create_table "publications", force: :cascade do |t|
     t.string "title"
@@ -35,9 +45,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_045945) do
     t.string "position"
     t.text "note"
     t.integer "role", default: 0
+    t.string "photo"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "postulations", "publications"
+  add_foreign_key "postulations", "users"
   add_foreign_key "publications", "users"
 end
