@@ -1,5 +1,9 @@
 class PublicationsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_publication, only: %i[ show edit update destroy ]
+  before_action only: [:new, :create, :edit, :update, :destroy] do
+    authorize_request(["author", "admin"])
+    end
 
   # GET /publications or /publications.json
   def index
@@ -8,6 +12,8 @@ class PublicationsController < ApplicationController
 
   # GET /publications/1 or /publications/1.json
   def show
+    @postulation = Postulation.new
+    #@postulations = @publication.postulations
   end
 
   # GET /publications/new

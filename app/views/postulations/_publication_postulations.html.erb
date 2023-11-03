@@ -1,0 +1,8 @@
+<div>
+<% @postulations.each do |postulation| %>
+    <p>
+    <%= image_tag(postulation.user.photo) %>
+    <%= postulation.content %>
+    </p>
+<% end %>
+</div>
